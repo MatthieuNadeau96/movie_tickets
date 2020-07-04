@@ -11,11 +11,14 @@ class SelectionScreen extends StatefulWidget {
 }
 
 class _SelectionScreenState extends State<SelectionScreen> {
-  CarouselController buttonCarouselController = CarouselController();
+  CarouselController carouselLinkController = CarouselController();
+
+  int prevIndex = -1;
 
   @override
   void initState() {
     super.initState();
+
     nowPlayingMoviesBloc..getMovies();
   }
 
@@ -76,132 +79,193 @@ class _SelectionScreenState extends State<SelectionScreen> {
       );
     } else
       return Scaffold(
-        backgroundColor: Colors.grey[700],
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
+        body: Stack(
           children: [
-            Container(
-              child: CarouselSlider(
-                options: CarouselOptions(
-                  height: size.height * 0.75,
-                  enlargeCenterPage: true,
-                ),
-                items: movies.map((movie) {
-                  return Builder(
-                    builder: (BuildContext context) {
-                      return Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20),
-                            topRight: Radius.circular(20),
+            CarouselSlider(
+              options: CarouselOptions(
+                height: size.height,
+                viewportFraction: 1,
+              ),
+              carouselController: carouselLinkController,
+              items: movies.map((movie) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return Column(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            width: size.width,
+                            // margin: EdgeInsets.symmetric(horizontal: 5.0),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.rectangle,
+                              image: DecorationImage(
+                                image: NetworkImage(
+                                  'https://image.tmdb.org/t/p/original/' +
+                                      movie.backPoster,
+                                ),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                           ),
                         ),
-                        padding: EdgeInsets.only(
-                          bottom: 30,
-                          left: 30,
-                          right: 30,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            // Image container
-                            Expanded(
-                              child: Container(
-                                margin: EdgeInsets.symmetric(
-                                  horizontal: 15,
-                                  vertical: 30,
-                                ),
-                                width: size.width,
-                                // margin: EdgeInsets.symmetric(horizontal: 5.0),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(20),
-                                  ),
-                                  color: Colors.white,
-                                  shape: BoxShape.rectangle,
-                                  image: DecorationImage(
-                                    image: NetworkImage(
-                                      'https://image.tmdb.org/t/p/original/' +
-                                          movie.backPoster,
-                                    ),
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Text(
-                              movie.title,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontSize: 28,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            SizedBox(height: 15),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  movie.rating.toString(),
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                                SizedBox(width: 5),
-                                RatingBar(
-                                  itemSize: 15,
-                                  initialRating: movie.rating / 2,
-                                  minRating: 1,
-                                  direction: Axis.horizontal,
-                                  allowHalfRating: true,
-                                  itemCount: 5,
-                                  itemPadding:
-                                      EdgeInsets.symmetric(horizontal: 2),
-                                  itemBuilder: (context, _) => Icon(
-                                    Icons.star,
-                                    color: Colors.yellow[800],
-                                  ),
-                                  onRatingUpdate: (rating) {
-                                    print(rating);
-                                  },
-                                ),
-                              ],
-                            ),
-                            // SizedBox(height: 5),
-                            IconButton(
-                              icon: Icon(
-                                Icons.more_horiz,
-                                color: Colors.grey[700],
-                              ),
-                              onPressed: () {},
-                            ),
-                            SizedBox(height: 5),
-                            MaterialButton(
-                              colorBrightness: Brightness.dark,
-                              color: Colors.grey[700],
-                              minWidth: size.width,
-                              padding: EdgeInsets.symmetric(vertical: 20),
-                              child: Text(
-                                'BUY TICKET',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                ),
-                              ),
-                              onPressed: () {},
-                            ),
-                          ],
-                        ),
-                      );
+                      ],
+                    );
+                  },
+                );
+              }).toList(),
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                ///
+                ///
+                //////////////////////////////////////////.//////////////////////////////////////////////////
+                ///
+                ///
+
+                CarouselSlider(
+                  options: CarouselOptions(
+                    onPageChanged: (index, reason) {
+                      _linkHandler(index);
+                      setState(() {
+                        prevIndex = index;
+                      });
                     },
-                  );
-                }).toList(),
-              ),
+                    height: size.height * 0.75,
+                    enlargeCenterPage: true,
+                  ),
+                  items: movies.map((movie) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20),
+                            ),
+                          ),
+                          padding: EdgeInsets.only(
+                            bottom: 30,
+                            left: 30,
+                            right: 30,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              // Image container
+                              Expanded(
+                                child: Container(
+                                  margin: EdgeInsets.symmetric(
+                                    horizontal: 15,
+                                    vertical: 30,
+                                  ),
+                                  width: size.width,
+                                  // margin: EdgeInsets.symmetric(horizontal: 5.0),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(20),
+                                    ),
+                                    color: Colors.white,
+                                    shape: BoxShape.rectangle,
+                                    image: DecorationImage(
+                                      image: NetworkImage(
+                                        'https://image.tmdb.org/t/p/original/' +
+                                            movie.poster,
+                                      ),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                movie.title,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              SizedBox(height: 15),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    movie.rating.toString(),
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  SizedBox(width: 5),
+                                  RatingBar(
+                                    itemSize: 15,
+                                    initialRating: movie.rating / 2,
+                                    minRating: 1,
+                                    direction: Axis.horizontal,
+                                    allowHalfRating: true,
+                                    itemCount: 5,
+                                    itemPadding:
+                                        EdgeInsets.symmetric(horizontal: 2),
+                                    itemBuilder: (context, _) => Icon(
+                                      Icons.star,
+                                      color: Colors.yellow[800],
+                                    ),
+                                    onRatingUpdate: (rating) {
+                                      print(rating);
+                                    },
+                                  ),
+                                ],
+                              ),
+                              // SizedBox(height: 5),
+                              IconButton(
+                                icon: Icon(
+                                  Icons.more_horiz,
+                                  color: Colors.grey[700],
+                                ),
+                                onPressed: () {},
+                              ),
+                              SizedBox(height: 5),
+                              MaterialButton(
+                                colorBrightness: Brightness.dark,
+                                color: Colors.grey[900],
+                                minWidth: size.width,
+                                padding: EdgeInsets.symmetric(vertical: 20),
+                                child: Text(
+                                  'BUY TICKET',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                                onPressed: () {},
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  }).toList(),
+                ),
+              ],
             ),
           ],
         ),
       );
+  }
+
+  dynamic _linkHandler(int index) {
+    if (prevIndex > index) {
+      return carouselLinkController.previousPage(
+        duration: Duration(milliseconds: 100),
+        curve: Curves.bounceIn,
+      );
+    } else if (prevIndex < index) {
+      return carouselLinkController.nextPage(
+        duration: Duration(milliseconds: 100),
+        curve: Curves.bounceIn,
+      );
+    }
   }
 }
