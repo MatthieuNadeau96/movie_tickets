@@ -1,4 +1,3 @@
-import 'package:movie_tickets/model/genre.dart';
 import 'package:movie_tickets/model/movie_detail.dart';
 
 class MovieDetailResponse {
