@@ -83,11 +83,12 @@ class _SelectionScreenState extends State<SelectionScreen> {
           children: [
             CarouselSlider(
               options: CarouselOptions(
+                reverse: true,
                 height: size.height,
                 viewportFraction: 1,
               ),
               carouselController: carouselLinkController,
-              items: movies.map((movie) {
+              items: movies.sublist(0, 10).map((movie) {
                 return Builder(
                   builder: (BuildContext context) {
                     return Column(
@@ -135,7 +136,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
                     height: size.height * 0.75,
                     enlargeCenterPage: true,
                   ),
-                  items: movies.map((movie) {
+                  items: movies.sublist(0, 10).map((movie) {
                     return Builder(
                       builder: (BuildContext context) {
                         return Container(
@@ -256,15 +257,29 @@ class _SelectionScreenState extends State<SelectionScreen> {
   }
 
   dynamic _linkHandler(int index) {
+    print('prevIndex = $prevIndex');
+    print('index = $index');
     if (prevIndex > index) {
+      if (prevIndex == 9 && index == 0) {
+        return carouselLinkController.nextPage(
+          duration: Duration(milliseconds: 400),
+          curve: Curves.linear,
+        );
+      }
       return carouselLinkController.previousPage(
-        duration: Duration(milliseconds: 100),
-        curve: Curves.bounceIn,
+        duration: Duration(milliseconds: 400),
+        curve: Curves.linear,
       );
     } else if (prevIndex < index) {
+      if ((prevIndex == 0 || prevIndex == -1) && index == 9) {
+        return carouselLinkController.previousPage(
+          duration: Duration(milliseconds: 400),
+          curve: Curves.linear,
+        );
+      }
       return carouselLinkController.nextPage(
-        duration: Duration(milliseconds: 100),
-        curve: Curves.bounceIn,
+        duration: Duration(milliseconds: 400),
+        curve: Curves.linear,
       );
     }
   }
