@@ -116,15 +116,25 @@ class _SelectionScreenState extends State<SelectionScreen> {
                 );
               }).toList(),
             ),
+            Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Colors.white.withOpacity(1.0),
+                    Colors.white.withOpacity(0.0),
+                  ],
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  stops: [
+                    0.3,
+                    0.5,
+                  ],
+                ),
+              ),
+            ),
             Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                ///
-                ///
-                //////////////////////////////////////////.//////////////////////////////////////////////////
-                ///
-                ///
-
                 CarouselSlider(
                   options: CarouselOptions(
                     onPageChanged: (index, reason) {
