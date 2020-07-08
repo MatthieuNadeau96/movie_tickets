@@ -103,15 +103,17 @@ class _DetailScreenState extends State<DetailScreen> {
           builder: (BuildContext context, ScrollController scrollController) {
             return Container(
               decoration: BoxDecoration(
-                color: Colors.grey[200],
+                color: Colors.white,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(30),
                   topRight: Radius.circular(30),
                 ),
               ),
+              padding: EdgeInsets.all(30),
               child: SingleChildScrollView(
                 controller: scrollController,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
                       movieDetails.title,
@@ -122,6 +124,49 @@ class _DetailScreenState extends State<DetailScreen> {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
+                    SizedBox(height: 10),
+                    Container(
+                      padding: EdgeInsets.only(
+                        right: 10,
+                        left: 15,
+                        top: 5,
+                        bottom: 5,
+                      ),
+                      height: 38.0,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
+                        itemCount: movieDetails.genres.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 5),
+                            child: Container(
+                              padding: const EdgeInsets.all(5),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25),
+                                color: Colors.white,
+                                border: Border.all(
+                                  width: 1.0,
+                                  color: Colors.grey[300],
+                                ),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  movieDetails.genres[index].name,
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w300,
+                                    color: Colors.grey[400],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    SizedBox(height: 15),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

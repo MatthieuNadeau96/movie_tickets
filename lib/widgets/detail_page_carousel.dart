@@ -82,6 +82,7 @@ class _DetailPageCarouselState extends State<DetailPageCarousel> {
       );
     } else
       return Scaffold(
+        backgroundColor: Colors.black,
         body: CarouselSlider(
           options: CarouselOptions(
             initialPage: movieIndex,
@@ -95,8 +96,6 @@ class _DetailPageCarouselState extends State<DetailPageCarousel> {
                   children: [
                     Expanded(
                       child: Container(
-                        width: size.width,
-                        // margin: EdgeInsets.symmetric(horizontal: 5.0),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           shape: BoxShape.rectangle,
