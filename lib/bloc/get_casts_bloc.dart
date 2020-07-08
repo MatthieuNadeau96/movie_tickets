@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:movie_tickets/model/cast_response.dart';
 import 'package:movie_tickets/repository/repository.dart';
 import 'package:rxdart/rxdart.dart';
@@ -12,7 +13,13 @@ class CastsBloc {
     _subject.sink.add(response);
   }
 
-  dispose() {
+  void drainStream() {
+    _subject.value = null;
+  }
+
+  @mustCallSuper
+  dispose() async {
+    await _subject.drain();
     _subject.close();
   }
 
