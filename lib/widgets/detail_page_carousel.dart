@@ -95,16 +95,19 @@ class _DetailPageCarouselState extends State<DetailPageCarousel> {
                 return Column(
                   children: [
                     Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.rectangle,
-                          image: DecorationImage(
-                            image: NetworkImage(
-                              'https://image.tmdb.org/t/p/original/' +
-                                  movie.poster,
+                      child: Hero(
+                        tag: '${movie.id}',
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.rectangle,
+                            image: DecorationImage(
+                              image: NetworkImage(
+                                'https://image.tmdb.org/t/p/original/' +
+                                    movie.poster,
+                              ),
+                              fit: BoxFit.cover,
                             ),
-                            fit: BoxFit.cover,
                           ),
                         ),
                       ),

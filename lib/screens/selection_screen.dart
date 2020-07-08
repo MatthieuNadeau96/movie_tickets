@@ -181,25 +181,27 @@ class _SelectionScreenState extends State<SelectionScreen> {
                               children: [
                                 // Image container
                                 Expanded(
-                                  child: Container(
-                                    margin: EdgeInsets.symmetric(
-                                      horizontal: 15,
-                                      vertical: 30,
-                                    ),
-                                    width: size.width,
-                                    // margin: EdgeInsets.symmetric(horizontal: 5.0),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(20),
+                                  child: Hero(
+                                    tag: '${movie.id}',
+                                    child: Container(
+                                      margin: EdgeInsets.symmetric(
+                                        horizontal: 15,
+                                        vertical: 30,
                                       ),
-                                      color: Colors.white,
-                                      shape: BoxShape.rectangle,
-                                      image: DecorationImage(
-                                        image: NetworkImage(
-                                          'https://image.tmdb.org/t/p/original/' +
-                                              movie.poster,
+                                      width: size.width,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(20),
                                         ),
-                                        fit: BoxFit.cover,
+                                        color: Colors.white,
+                                        shape: BoxShape.rectangle,
+                                        image: DecorationImage(
+                                          image: NetworkImage(
+                                            'https://image.tmdb.org/t/p/original/' +
+                                                movie.poster,
+                                          ),
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
                                     ),
                                   ),
