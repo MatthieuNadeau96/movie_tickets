@@ -4,6 +4,7 @@ import 'package:movie_tickets/bloc/get_movie_detail_bloc.dart';
 import 'package:movie_tickets/model/movie.dart';
 import 'package:movie_tickets/model/movie_detail.dart';
 import 'package:movie_tickets/model/movie_detail_response.dart';
+import 'package:movie_tickets/screens/seat_select_screen.dart';
 import 'package:movie_tickets/widgets/casts.dart';
 import 'package:movie_tickets/widgets/detail_page_carousel.dart';
 import 'package:intl/intl.dart';
@@ -346,7 +347,13 @@ class _DetailScreenState extends State<DetailScreen> {
                   fontSize: 15,
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SeatSelectScreen(movie: movie),
+                    ));
+              },
             ),
           ),
         ),

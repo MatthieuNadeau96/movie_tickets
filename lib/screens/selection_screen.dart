@@ -5,6 +5,7 @@ import 'package:movie_tickets/bloc/get_now_playing_movies_bloc.dart';
 import 'package:movie_tickets/model/movie.dart';
 import 'package:movie_tickets/model/movie_response.dart';
 import 'package:movie_tickets/screens/detail_screen.dart';
+import 'package:movie_tickets/screens/seat_select_screen.dart';
 
 class SelectionScreen extends StatefulWidget {
   @override
@@ -157,11 +158,12 @@ class _SelectionScreenState extends State<SelectionScreen> {
                         return GestureDetector(
                           onTap: () {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => DetailScreen(
-                                      movie: movie, movieIndex: movieIndex),
-                                ));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DetailScreen(
+                                    movie: movie, movieIndex: movieIndex),
+                              ),
+                            );
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -266,7 +268,16 @@ class _SelectionScreenState extends State<SelectionScreen> {
                                       fontSize: 15,
                                     ),
                                   ),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => SeatSelectScreen(
+                                            movie: movie,
+                                            movieIndex: movieIndex),
+                                      ),
+                                    );
+                                  },
                                 ),
                               ],
                             ),

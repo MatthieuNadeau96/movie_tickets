@@ -1,5 +1,5 @@
 class Video {
-  final int id;
+  final String id;
   final String key;
   final String name;
   final String site;

@@ -1,4 +1,4 @@
-import 'package:movie_tickets/model/movie_detail_response.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:movie_tickets/model/video_response.dart';
 import 'package:movie_tickets/repository/repository.dart';
 import 'package:rxdart/rxdart.dart';
@@ -13,7 +13,13 @@ class MovieVideoBloc {
     _subject.sink.add(response);
   }
 
-  dispose() {
+  void drainStream() {
+    _subject.value = null;
+  }
+
+  @mustCallSuper
+  dispose() async {
+    await _subject.drain();
     _subject.close();
   }
 
