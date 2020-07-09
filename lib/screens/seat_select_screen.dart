@@ -4,6 +4,8 @@ import 'package:movie_tickets/bloc/get_movie_video_bloc.dart';
 import 'package:movie_tickets/model/movie.dart';
 import 'package:movie_tickets/model/video.dart';
 import 'package:movie_tickets/model/video_response.dart';
+import 'package:movie_tickets/widgets/video_player.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class SeatSelectScreen extends StatefulWidget {
   final Movie movie;
@@ -20,6 +22,14 @@ class _SeatSelectScreenState extends State<SeatSelectScreen> {
   final Movie movie;
   final int movieIndex;
   _SeatSelectScreenState(this.movie, this.movieIndex);
+  int _selectedIndex;
+  bool flipped = false;
+
+  _onSelected(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   void initState() {
@@ -98,24 +108,43 @@ class _SeatSelectScreenState extends State<SeatSelectScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                height: 180,
-                color: Colors.grey[200],
+                height: 200,
+                child: VideoPlayer(
+                  controller: YoutubePlayerController(
+                    initialVideoId: videos[0].key,
+                    flags: YoutubePlayerFlags(
+                      mute: true,
+                      autoPlay: true,
+                      hideControls: true,
+                      startAt: 4,
+                    ),
+                  ),
+                ),
               ),
               Container(
                 child: GridView.builder(
                   physics: NeverScrollableScrollPhysics(),
                   itemCount: 80,
+                  reverse: true,
                   shrinkWrap: true,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 10,
+                    crossAxisCount: 11,
                   ),
                   itemBuilder: (context, index) {
                     return IconButton(
                       icon: Icon(
                         Icons.weekend,
-                        color: Colors.grey,
+                        color: _selectedIndex != null && _selectedIndex == index
+                            ? Colors.redAccent
+                            : Colors.grey[200],
                       ),
-                      onPressed: null,
+                      onPressed: () {
+                        setState(() {
+                          _onSelected(index);
+                          flipped = !flipped;
+                          print(flipped);
+                        });
+                      },
                     );
                   },
                 ),
