@@ -107,16 +107,22 @@ class _SeatSelectScreenState extends State<SeatSelectScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                height: 200,
-                child: VideoPlayer(
-                  controller: YoutubePlayerController(
-                    initialVideoId: videos[0].key,
-                    flags: YoutubePlayerFlags(
-                      mute: true,
-                      autoPlay: true,
-                      hideControls: true,
-                      startAt: 4,
+              Transform(
+                transform: Matrix4.identity()
+                  ..setEntry(3, 2, 0.01)
+                  ..rotateX(0.1),
+                alignment: FractionalOffset.center,
+                child: Container(
+                  height: 200,
+                  child: VideoPlayer(
+                    controller: YoutubePlayerController(
+                      initialVideoId: videos[0].key,
+                      flags: YoutubePlayerFlags(
+                        mute: true,
+                        autoPlay: true,
+                        hideControls: true,
+                        startAt: 4,
+                      ),
                     ),
                   ),
                 ),
